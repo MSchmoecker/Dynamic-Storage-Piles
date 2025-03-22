@@ -1,3 +1,4 @@
+
 # Dynamic Storage Piles
 
 ## About
@@ -51,6 +52,8 @@ Example of dynamic IngotStacks:
 
 Big thanks to Richard and Azumatt for the awesome mods and possible integration!
 
+It also integrates with [MoreStacks](https://github.com/Ujhik/ValheimMod-MoreStacks) as container stacks, both mods need to be installed to have this feature. Example with honey stacks:
+![StackOverview](https://github.com/Ujhik/ValheimMod-MoreStacks/blob/main/design/dynamicStacks.png?raw=true)
 
 ## Manual Installation
 
@@ -65,6 +68,7 @@ The mod must be installed on the server and all clients for it to work.
 
 - [IngotStacks](https://valheim.thunderstore.io/package/MySoloTeam/IngotStacks/), integrates with this mod if both are installed
 - [StackedBars](https://valheim.thunderstore.io/package/Azumatt/StackedBars/), integrates with this mod if both are installed
+- [MoreStacks](https://thunderstore.io/c/valheim/p/Ujhik/MoreStacks/), integrates with this mod if both are installed
 - [Balrond Containers](https://valheim.thunderstore.io/package/Balrond/balrond_containers/)
 - [ArborStorage](https://valheim.thunderstore.io/package/coemt/ArborStorage/)
 - [Digitalroots GoldBars](https://valheim.thunderstore.io/package/Digitalroot/Digitalroots_GoldBars/)

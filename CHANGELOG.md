@@ -1,4 +1,9 @@
+
 # Changelog
+
+0.7.0
+- Added [MoreStacks](https://thunderstore.io/c/valheim/p/Ujhik/MoreStacks/) integration when both mods are installed
+- Changed the recipe for flametal stockpiles from "flametal" to "flametalNew" because "flametal" is actually not obtainable and deprecated for the moment
 
 0.6.1
 - Fixed Ashwood stack was targeting the wrong vanilla prefab, resulting in removal of the stack with mods installed that initialize earlier

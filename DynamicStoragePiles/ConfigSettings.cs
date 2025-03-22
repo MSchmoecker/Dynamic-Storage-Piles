@@ -11,6 +11,7 @@ namespace DynamicStoragePiles {
         public static ConfigEntry<RecipeSetting> VanillaRecipeSetting { get; private set; }
         public static ConfigEntry<RecipeSetting> IngotStacksRecipeSetting { get; private set; }
         public static ConfigEntry<RecipeSetting> StackedBarsRecipeSetting { get; private set; }
+        public static ConfigEntry<RecipeSetting> MoreStacksRecipeSetting { get; private set; }
 
         public static ConfigEntry<bool> azuAutoStoreCompat;
         public static ConfigEntry<bool> azuAutoStoreItemWhitelist;
@@ -50,6 +51,11 @@ namespace DynamicStoragePiles {
 
             StackedBarsRecipeSetting = config.Bind(section, "StackedBars Stack Recipes", RecipeSetting.AllStoragePiles, $"Sets which pieces are placeable.{disableRecipeDescription}");
             StackedBarsRecipeSetting.SettingChanged += (sender, args) => DynamicStoragePiles.UpdateAllRecipes();
+
+            section = "2.3 - Compatibility MoreStacks";
+
+            MoreStacksRecipeSetting = config.Bind(section, "MoreStacks Stack Recipes", RecipeSetting.AllStoragePiles, $"Sets which pieces are placeable.{disableRecipeDescription}");
+            MoreStacksRecipeSetting.SettingChanged += (sender, args) => DynamicStoragePiles.UpdateAllRecipes();
         }
 
         public static bool IsEnabled(this ConfigEntry<RecipeSetting> configEntry, bool isOriginal) {

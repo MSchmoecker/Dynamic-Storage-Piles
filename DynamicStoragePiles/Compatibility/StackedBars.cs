@@ -17,7 +17,8 @@ namespace DynamicStoragePiles.Compatibility {
             ConvertToPiece("stack_ironbars", "MS_StackedBars_Iron", "Iron");
             ConvertToPiece("stack_silverbars", "MS_StackedBars_Silver", "Silver");
             ConvertToPiece("stack_blackmetalbars", "MS_StackedBars_BlackMetal", "BlackMetal");
-            ConvertToPiece("stack_flametalbars", "MS_StackedBars_FlameMetal", "Flametal");
+            //ConvertToPiece("stack_flametalbars", "MS_StackedBars_FlameMetal", "Flametal");
+            ConvertToPiece("stack_flametalbars", "MS_StackedBars_FlameMetalNew", "FlametalNew");
         }
 
         public static void ConvertToPiece(string baseAssetName, string newPrefabName, string resource) {

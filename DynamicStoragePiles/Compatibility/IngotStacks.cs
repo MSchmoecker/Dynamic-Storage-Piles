@@ -17,7 +17,8 @@ namespace DynamicStoragePiles.Compatibility {
             ConvertToPiece("ingot_iron_stack", "vfx_iron_stack_destroyed", "MS_IngotStacks_Iron", "Iron");
             ConvertToPiece("ingot_silver_stack", "vfx_silver_stack_destroyed", "MS_IngotStacks_Silver", "Silver");
             ConvertToPiece("ingot_blackmetal_stack", "vfx_blackmetal_stack_destroyed", "MS_IngotStacks_Blackmetal", "BlackMetal");
-            ConvertToPiece("ingot_flametal_stack", "vfx_flametal_stack_destroyed", "MS_IngotStacks_Flametal", "Flametal");
+            //ConvertToPiece("ingot_flametal_stack", "vfx_flametal_stack_destroyed", "MS_IngotStacks_Flametal", "Flametal");
+            ConvertToPiece("ingot_flametal_stack", "vfx_flametal_stack_destroyed", "MS_IngotStacks_FlametalNew", "FlametalNew");
         }
 
         public static void ConvertToPiece(string baseAssetName, string vfxName, string newPrefabName, string resource) {

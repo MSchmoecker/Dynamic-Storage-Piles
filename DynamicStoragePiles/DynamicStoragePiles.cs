@@ -13,11 +13,14 @@ using UnityEngine;
 namespace DynamicStoragePiles {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
+    [BepInDependency(PLUGIN_MORESTACKS_GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
     internal class DynamicStoragePiles : BaseUnityPlugin {
         public const string PluginName = "DynamicStoragePiles";
         public const string PluginGuid = "com.maxsch.valheim.DynamicStoragePiles";
-        public const string PluginVersion = "0.6.1";
+        public const string PluginVersion = "0.7.0";
+
+        public const string PLUGIN_MORESTACKS_GUID = "ujhik.MoreStacks";
 
         public static DynamicStoragePiles Instance { get; private set; }
         public static Harmony harmony;
@@ -47,6 +50,7 @@ namespace DynamicStoragePiles {
 
         private void Awake() {
             Instance = this;
+
             assetBundle = AssetUtils.LoadAssetBundleFromResources("containerstacks");
 
             AddStackPiece("MS_container_wood_stack", "Wood");
@@ -64,8 +68,8 @@ namespace DynamicStoragePiles {
 
             ConfigSettings.Init(Config);
 
+            PrefabManager.OnPrefabsRegistered += OnPrefabsRegistered;
             PieceManager.OnPiecesRegistered += OnPiecesRegistered;
-            PrefabManager.OnPrefabsRegistered += UpdateAllRecipes;
 
             harmony = new Harmony(PluginGuid);
             harmony.PatchAll();
@@ -93,6 +97,7 @@ namespace DynamicStoragePiles {
             UpdateRecipes(vanillaStacks, dynamicStacks, ConfigSettings.VanillaRecipeSetting);
             UpdateRecipes(Compatibility.IngotStacks.ingotStacks, Compatibility.IngotStacks.dynamicIngotStacks, ConfigSettings.IngotStacksRecipeSetting);
             UpdateRecipes(Compatibility.StackedBars.stackedBars, Compatibility.StackedBars.dynamicStackedBars, ConfigSettings.StackedBarsRecipeSetting);
+            UpdateRecipes(Compatibility.MoreStacks.staticStacks, Compatibility.MoreStacks.dynamicStacks, ConfigSettings.MoreStacksRecipeSetting);
 
             if (Player.m_localPlayer) {
                 Player.m_localPlayer.UpdateAvailablePiecesList();
@@ -131,10 +136,26 @@ namespace DynamicStoragePiles {
             AddPiece(piece, craftItem);
         }
 
+        public void AddCompatPiece(GameObject prefab, string craftItem, int amount, bool addGraphics) {
+            CustomPiece piece = new CustomPiece(prefab, true, StackConfig(craftItem, amount));
+
+            if (addGraphics) { 
+                renderSprites.Add(piece);
+            }
+
+            AddPiece(piece, craftItem);
+        }
+
         private void AddPiece(CustomPiece piece, string craftItem) {
             PieceManager.Instance.AddPiece(piece);
             allowedItemsByStack.Add(piece.PiecePrefab.name, craftItem);
             allowedItemsByContainer.Add(piece.PiecePrefab.GetComponent<Container>().m_name, craftItem);
+        }
+
+        private void OnPrefabsRegistered() {
+            if (Chainloader.PluginInfos.ContainsKey(PLUGIN_MORESTACKS_GUID)) {
+                Compatibility.MoreStacks.Init();
+            }
         }
 
         private void OnPiecesRegistered() {
@@ -143,6 +164,8 @@ namespace DynamicStoragePiles {
             foreach (CustomPiece piece in renderSprites) {
                 StartCoroutine(RenderSprite(piece));
             }
+
+            UpdateAllRecipes();
         }
 
         private IEnumerator RenderSprite(CustomPiece piece) {
@@ -157,7 +180,7 @@ namespace DynamicStoragePiles {
             piece.Piece.m_icon = RenderManager.Instance.Render(new RenderManager.RenderRequest(piece.PiecePrefab) {
                 Width = 64,
                 Height = 64,
-                Rotation = RenderManager.IsometricRotation * Quaternion.Euler(0, -90f, 0),
+                Rotation = RenderManager.IsometricRotation * Quaternion.Euler(0f, -90f, 0f),
                 UseCache = true,
                 TargetPlugin = Info.Metadata,
             });
