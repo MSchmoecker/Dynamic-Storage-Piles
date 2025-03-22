@@ -53,7 +53,7 @@ Example of dynamic IngotStacks:
 Big thanks to Richard and Azumatt for the awesome mods and possible integration!
 
 It also integrates with [MoreStacks](https://github.com/Ujhik/ValheimMod-MoreStacks) as container stacks, both mods need to be installed to have this feature. Example with honey stacks:
-![StackOverview](https://github.com/Ujhik/ValheimMod-MoreStacks/blob/main/design/dynamicStacks.png?raw=true)
+![StackOverview](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/MoreStacksHoney.png)
 
 ## Manual Installation
 
