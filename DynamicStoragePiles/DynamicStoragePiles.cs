@@ -87,6 +87,10 @@ namespace DynamicStoragePiles {
             if (Chainloader.PluginInfos.ContainsKey("Azumatt.StackedBars")) {
                 Compatibility.StackedBars.Init();
             }
+            
+            if (Chainloader.PluginInfos.ContainsKey("blacks7ar.RefinedStonePieces")) {
+                Compatibility.RefinedStonePieces.Init();
+            }
         }
 
         public static void UpdateAllRecipes() {
@@ -98,6 +102,7 @@ namespace DynamicStoragePiles {
             UpdateRecipes(Compatibility.IngotStacks.ingotStacks, Compatibility.IngotStacks.dynamicIngotStacks, ConfigSettings.IngotStacksRecipeSetting);
             UpdateRecipes(Compatibility.StackedBars.stackedBars, Compatibility.StackedBars.dynamicStackedBars, ConfigSettings.StackedBarsRecipeSetting);
             UpdateRecipes(Compatibility.MoreStacks.staticStacks, Compatibility.MoreStacks.dynamicStacks, ConfigSettings.MoreStacksRecipeSetting);
+            UpdateRecipes(Compatibility.RefinedStonePieces.staticStacks, Compatibility.RefinedStonePieces.dynamicStacks, ConfigSettings.RefinedStonePiecesSetting);
 
             if (Player.m_localPlayer) {
                 Player.m_localPlayer.UpdateAvailablePiecesList();

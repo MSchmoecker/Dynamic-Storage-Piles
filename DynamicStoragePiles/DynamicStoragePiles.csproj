@@ -84,6 +84,7 @@
     <Compile Include="Compatibility\AzuAutoStore.cs" />
     <Compile Include="Compatibility\IngotStacks.cs" />
     <Compile Include="Compatibility\MoreStacks.cs" />
+    <Compile Include="Compatibility\RefinedStonePieces.cs" />
     <Compile Include="Compatibility\StackedBars.cs" />
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="InventoryHelper.cs" />
