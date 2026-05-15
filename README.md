@@ -34,8 +34,11 @@ Depending on the inventory fill level, more items will be displayed on the stack
 
 ### Mod Integration
 
-This mod integrates both [IngotStacks](https://valheim.thunderstore.io/package/MySoloTeam/IngotStacks/) and [StackedBars](https://valheim.thunderstore.io/package/Azumatt/StackedBars/) as container stacks for ingots.
-IngotStacks/StackedBars and DynamicStoragePiles must be installed for this to work, otherwise no ingot stacks will be added to the game.
+This mod integrates with [IngotStacks](https://valheim.thunderstore.io/package/MySoloTeam/IngotStacks/), [StackedBars](https://valheim.thunderstore.io/package/Azumatt/StackedBars/), [MoreStacks](https://github.com/Ujhik/ValheimMod-MoreStacks) and [RefinedStonePieces](https://thunderstore.io/c/valheim/p/blacks7ar/RefinedStonePieces/) by adding dynamic stacks with their items.
+They will only be added when DynamicStoragePiles and the respective mod are both installed.
+
+Example of dynamic IngotStacks:
+![IngotStacksShowcase](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/IngotStacksIntegrationShowcase.png)
 
 Each stack costs 3 ingots of the respective material to build:
 - Copper Stack
@@ -46,14 +49,11 @@ Each stack costs 3 ingots of the respective material to build:
 - Black Metal Stack
 - Flametal Stack
 
-Example of dynamic IngotStacks:
-
-![IngotStacksShowcase](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/IngotStacksIntegrationShowcase.png)
+Example of dynamic MoreStacks:
+![StackOverview](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/MoreStacksHoney.png)
 
 Big thanks to Richard and Azumatt for the awesome mods and possible integration!
 
-It also integrates with [MoreStacks](https://github.com/Ujhik/ValheimMod-MoreStacks) as container stacks, both mods need to be installed to have this feature. Example with honey stacks:
-![StackOverview](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/MoreStacksHoney.png)
 
 ## Manual Installation
 
@@ -69,6 +69,7 @@ The mod must be installed on the server and all clients for it to work.
 - [IngotStacks](https://valheim.thunderstore.io/package/MySoloTeam/IngotStacks/), integrates with this mod if both are installed
 - [StackedBars](https://valheim.thunderstore.io/package/Azumatt/StackedBars/), integrates with this mod if both are installed
 - [MoreStacks](https://thunderstore.io/c/valheim/p/Ujhik/MoreStacks/), integrates with this mod if both are installed
+- [RefinedStonePieces](https://thunderstore.io/c/valheim/p/blacks7ar/RefinedStonePieces/), integrates with this mod if both are installed
 - [Balrond Containers](https://valheim.thunderstore.io/package/Balrond/balrond_containers/)
 - [ArborStorage](https://valheim.thunderstore.io/package/coemt/ArborStorage/)
 - [Digitalroots GoldBars](https://valheim.thunderstore.io/package/Digitalroot/Digitalroots_GoldBars/)

@@ -1,6 +1,9 @@
 
 # Changelog
 
+0.8.0
+- Added [RefinedStonePieces](https://thunderstore.io/c/valheim/p/blacks7ar/RefinedStonePieces/) integration (Refined Stone Stack) when both mods are installed
+
 0.7.0
 - Added [MoreStacks](https://thunderstore.io/c/valheim/p/Ujhik/MoreStacks/) integration when both mods are installed (thanks Ujhik)
 - Changed the recipe for flametal stockpiles from "flametal" to "flametalNew" because "flametal" is actually not obtainable and deprecated for the moment (thanks Ujhik)
