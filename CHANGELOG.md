@@ -1,6 +1,9 @@
 
 # Changelog
 
+0.8.1
+- Updated for Valheim 1.0
+
 0.8.0
 - Added [RefinedStonePieces](https://thunderstore.io/c/valheim/p/blacks7ar/RefinedStonePieces/) integration (Refined Stone Stack) when both mods are installed
 
