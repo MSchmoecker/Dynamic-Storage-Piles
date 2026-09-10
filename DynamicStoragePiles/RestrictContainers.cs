@@ -99,7 +99,7 @@ namespace DynamicStoragePiles {
         /// <returns></returns>
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Inventory), nameof(Inventory.AddItem), new[] { typeof(ItemDrop.ItemData) })]
-        [HarmonyPatch(typeof(Inventory), nameof(Inventory.AddItem), new[] { typeof(ItemDrop.ItemData), typeof(int), typeof(int), typeof(int) })]
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.AddItem), new[] { typeof(ItemDrop.ItemData), typeof(int), typeof(int), typeof(int), typeof(bool) })]
         [HarmonyPriority(Priority.First)]
         private static bool AddItemPrefix(Inventory __instance, ItemDrop.ItemData item, ref bool __result) {
             if (!CanAddItem(__instance, item)) {
@@ -233,7 +233,8 @@ namespace DynamicStoragePiles {
         /// </summary>
         /// <param name="__instance"></param>
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(Inventory), nameof(Inventory.Load))]
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.Load), typeof(ZPackage))]
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.Load), typeof(ZPackage), typeof(bool))]
         private static void LoadPrefix(Inventory __instance) {
             if (__instance == null) {
                 return;
@@ -247,7 +248,8 @@ namespace DynamicStoragePiles {
         /// </summary>
         /// <param name="__instance"></param>
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(Inventory), nameof(Inventory.Load))]
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.Load), typeof(ZPackage))]
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.Load), typeof(ZPackage), typeof(bool))]
         private static void LoadPostfix() {
             _loadingContainer = null;
         }
