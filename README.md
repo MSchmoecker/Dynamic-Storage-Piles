@@ -8,7 +8,7 @@ Adds stacks and piles as new container pieces. Their appearance changes dependin
 
 ## Features
 
-Stacks and piles can be built on the hammer using 10 items of their respective material.
+Stacks and piles can be built on the hammer using 10 items of their respective material, metal bar stacks use 3 bars.
 No workbench or other crafting station is required, they can be built anywhere.
 Each stack has 10 slots that can be used to store any item.
 
@@ -25,6 +25,9 @@ Vanilla stacks and piles models are used:
 - Pile of Skulls
 - Bone Stack
 - Coin Stack
+- Metal Bar Stacks (Copper, Tin, Bronze, Iron, Silver, Black Metal, Flametal and Bloodgold)
+- Timberwood Stack
+- Flint Pile
 
 ![StackOverview](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/StackOverview.png)
 

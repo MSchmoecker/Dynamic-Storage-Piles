@@ -1,6 +1,10 @@
 
 # Changelog
 
+Unreleased
+- Added dynamic piles for the vanilla metal bar stacks (Copper, Tin, Bronze, Iron, Silver, Black Metal, Flametal and Bloodgold)
+- Added dynamic piles for the vanilla Timberwood stack and Flint pile
+
 0.8.1
 - Updated for Valheim 1.0
 

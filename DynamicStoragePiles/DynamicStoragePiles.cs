@@ -66,6 +66,8 @@ namespace DynamicStoragePiles {
             AddStackPiece("MS_container_bone_stack", "BoneFragments");
             AddStackPiece("MS_container_coin_pile", "Coins");
 
+            DestroyEffectStacks.Init();
+
             ConfigSettings.Init(Config);
 
             PrefabManager.OnPrefabsRegistered += OnPrefabsRegistered;
@@ -99,6 +101,7 @@ namespace DynamicStoragePiles {
             }
 
             UpdateRecipes(vanillaStacks, dynamicStacks, ConfigSettings.VanillaRecipeSetting);
+            UpdateRecipes(DestroyEffectStacks.vanillaStacks, DestroyEffectStacks.dynamicStacks, ConfigSettings.VanillaRecipeSetting);
             UpdateRecipes(Compatibility.IngotStacks.ingotStacks, Compatibility.IngotStacks.dynamicIngotStacks, ConfigSettings.IngotStacksRecipeSetting);
             UpdateRecipes(Compatibility.StackedBars.stackedBars, Compatibility.StackedBars.dynamicStackedBars, ConfigSettings.StackedBarsRecipeSetting);
             UpdateRecipes(Compatibility.MoreStacks.staticStacks, Compatibility.MoreStacks.dynamicStacks, ConfigSettings.MoreStacksRecipeSetting);
