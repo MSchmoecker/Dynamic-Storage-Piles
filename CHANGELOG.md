@@ -1,6 +1,9 @@
 
 # Changelog
 
+Unreleased
+- Added a Charred Bone Stack, built from the Charred Bone item model and laid like the Bone Stack
+
 0.8.1
 - Updated for Valheim 1.0
 

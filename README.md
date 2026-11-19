@@ -25,6 +25,7 @@ Vanilla stacks and piles models are used:
 - Pile of Skulls
 - Bone Stack
 - Coin Stack
+- Charred Bone Stack (no vanilla stack exists, so it is built from the Charred Bone item model, laid like the Bone Stack)
 
 ![StackOverview](https://raw.githubusercontent.com/MSchmoecker/Dynamic-Storage-Piles/master/Docs/StackOverview.png)
 

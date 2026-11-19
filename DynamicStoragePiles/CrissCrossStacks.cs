@@ -1,0 +1,129 @@
+using System.Collections.Generic;
+using System.Linq;
+using Jotunn.Managers;
+using UnityEngine;
+
+namespace DynamicStoragePiles {
+    /// <summary>
+    ///     Dynamic piles for items without a vanilla stack, built at runtime by laying copies of the
+    ///     item's own model criss-cross like the Bone Stack. They need no meshes or prefabs in the
+    ///     asset bundle.
+    /// </summary>
+    public static class CrissCrossStacks {
+        public static void Init() {
+            LocalizationManager.Instance.GetLocalization().AddTranslation("English", new Dictionary<string, string> {
+                { "piece_charredbonestack", "Charred Bone Stack" },
+            });
+
+            PrefabManager.OnVanillaPrefabsAvailable += AddPiles;
+        }
+
+        private static void AddPiles() {
+            PrefabManager.OnVanillaPrefabsAvailable -= AddPiles;
+
+            AddCrissCrossPile("MS_container_charredbone_stack", "CharredBone", "bone_stack", "$piece_charredbonestack", 8, 4, 1337);
+        }
+
+        /// <summary>
+        ///     A pile of copies of an item's own model, laid like the Bone Stack: <paramref name="layers"/>
+        ///     layers of <paramref name="perLayer"/> pieces, each layer at right angles to the one below.
+        ///     Sizes come from the item's model, so every layer rests exactly on the one below.
+        /// </summary>
+        /// <param name="newPrefabName">Prefab name of the new pile. Saved in the world, so never change it.</param>
+        /// <param name="itemName">Item stored in the pile, whose dropped model is stacked.</param>
+        /// <param name="basePieceName">Vanilla piece to copy the Piece / WearNTear settings from.</param>
+        /// <param name="nameToken">Localization token for the pile's name.</param>
+        /// <param name="seed">Seed for the small random turns and shifts that make it look hand-stacked.</param>
+        private static void AddCrissCrossPile(string newPrefabName, string itemName, string basePieceName, string nameToken,
+                                              int layers, int perLayer, int seed) {
+            GameObject item = PrefabManager.Instance.GetPrefab(itemName);
+            GameObject basePiece = PrefabManager.Instance.GetPrefab(basePieceName);
+            MeshFilter itemMesh = item ? item.GetComponentsInChildren<MeshFilter>(true).FirstOrDefault(m => m.sharedMesh) : null;
+            MeshRenderer itemRenderer = itemMesh ? itemMesh.GetComponent<MeshRenderer>() : null;
+
+            if (!itemRenderer || !basePiece || !basePiece.GetComponent<Piece>() || !basePiece.GetComponent<WearNTear>()) {
+                Jotunn.Logger.LogWarning($"Could not find {itemName}'s model or {basePieceName}, skipping {newPrefabName}");
+                return;
+            }
+
+            Mesh mesh = itemMesh.sharedMesh;
+            Vector3 scale = itemMesh.transform.lossyScale;   // the dropped item's size (CharredBone: 1.3)
+            Vector3 size = Vector3.Scale(mesh.bounds.size, scale);
+
+            // Lay the model with its longest side along X and its thinnest side up, whatever
+            // axes the model itself uses.
+            int longAxis = size.x >= size.y && size.x >= size.z ? 0 : size.y >= size.z ? 1 : 2;
+            int upAxis = Enumerable.Range(0, 3).Where(a => a != longAxis).OrderBy(a => size[a]).First();
+            int sideAxis = 3 - longAxis - upAxis;
+            Vector3 longDir = Vector3.zero, upDir = Vector3.zero;
+            longDir[longAxis] = 1f;
+            upDir[upAxis] = 1f;
+            Quaternion modelToFlat = Quaternion.Inverse(Quaternion.LookRotation(Vector3.Cross(longDir, upDir), upDir));
+            Vector3 modelCenter = Vector3.Scale(mesh.bounds.center, scale);
+
+            float length = size[longAxis];
+            float height = size[upAxis];
+            float width = size[sideAxis];
+            // Outer pieces of a layer sit under the ends of the layer above.
+            float spread = Mathf.Max(0f, length - width);
+
+            // CreateEmptyPrefab isn't empty: it's a cube (pink in Valheim) with a collider, and its
+            // bool only controls the ZNetView. Left in, the cube becomes the pile's first "piece",
+            // which VisualStack always shows while hiding every bone, and the empty pile has nothing
+            // to aim at. Strip the cube so only the bones are left.
+            GameObject stack = PrefabManager.Instance.CreateEmptyPrefab(newPrefabName, true);
+            Object.DestroyImmediate(stack.GetComponent<Collider>());
+            Object.DestroyImmediate(stack.GetComponent<MeshRenderer>());
+            Object.DestroyImmediate(stack.GetComponent<MeshFilter>());
+            stack.layer = basePiece.layer;
+
+            System.Random random = new System.Random(seed);
+            float Jitter(float max) => (float)(random.NextDouble() * 2 - 1) * max;
+
+            // Created bottom layer first, so this is also the fill order.
+            for (int layer = 0; layer < layers; layer++) {
+                Quaternion layerTurn = Quaternion.Euler(0f, layer % 2 == 0 ? 0f : 90f, 0f);
+
+                for (int i = 0; i < perLayer; i++) {
+                    float across = perLayer > 1 ? -spread / 2f + spread * i / (perLayer - 1) : 0f;
+                    Vector3 center = layerTurn * new Vector3(Jitter(0.03f), height / 2f + layer * height, across);
+
+                    // A small turn, and some pieces flipped end for end, so it isn't machine-perfect.
+                    // Both turn around the vertical axis only, so the layer height never changes.
+                    Quaternion turn = Quaternion.Euler(0f, Jitter(3f) + (random.Next(2) == 0 ? 0f : 180f), 0f);
+                    Quaternion rotation = layerTurn * turn * modelToFlat;
+
+                    GameObject piece = new GameObject($"{itemName}_{layer}_{i}");
+                    piece.layer = basePiece.layer;
+                    piece.transform.SetParent(stack.transform, false);
+                    piece.transform.localScale = scale;
+                    piece.transform.localRotation = rotation;
+                    piece.transform.localPosition = center - rotation * modelCenter;
+                    piece.AddComponent<MeshFilter>().sharedMesh = mesh;
+                    piece.AddComponent<MeshRenderer>().sharedMaterials = itemRenderer.sharedMaterials;
+                }
+            }
+
+            stack = PieceHelper.PreparePiecePrefab(stack, basePiece, nameToken);
+            stack.name = newPrefabName;
+            stack.GetComponent<Piece>().m_name = nameToken;
+
+            // The copied WearNTear points at the base prefab's New/Worn/Broken objects. Left as is,
+            // damaging this pile would toggle those on the vanilla prefab. Null disables the swap.
+            WearNTear wearNTear = stack.GetComponent<WearNTear>();
+            wearNTear.m_new = null;
+            wearNTear.m_worn = null;
+            wearNTear.m_broken = null;
+            // The base piece's break effect scatters its own pieces (white bones for bone_stack).
+            // Keep its sounds and dust, drop the scattering part. New list: the old one is shared.
+            wearNTear.m_destroyedEffect = new EffectList {
+                m_effectPrefabs = wearNTear.m_destroyedEffect.m_effectPrefabs
+                    .Where(e => !e.m_prefab || !e.m_prefab.GetComponent<Gibber>())
+                    .ToArray(),
+            };
+
+            DynamicStoragePiles.dynamicStacks.Add(newPrefabName);
+            DynamicStoragePiles.Instance.AddCompatPiece(stack, itemName, 10, true);
+        }
+    }
+}
