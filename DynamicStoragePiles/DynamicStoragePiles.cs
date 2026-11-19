@@ -44,9 +44,10 @@ namespace DynamicStoragePiles {
             "skull_pile",
             "treasure_stack",
             "bone_stack",
+            "wood_frost_stack",
         };
 
-        private static List<string> dynamicStacks = new List<string>();
+        internal static List<string> dynamicStacks = new List<string>();
 
         private void Awake() {
             Instance = this;
@@ -65,6 +66,8 @@ namespace DynamicStoragePiles {
             AddStackPiece("MS_container_skull_pile", "Charredskull");
             AddStackPiece("MS_container_bone_stack", "BoneFragments");
             AddStackPiece("MS_container_coin_pile", "Coins");
+
+            VanillaStacks.Init();
 
             ConfigSettings.Init(Config);
 
